@@ -18,6 +18,7 @@ public class ItemEffects extends JavaPlugin implements Listener
 	@Override
 	public void onEnable()
 	{
+		// TODO: Will this overwrite the custom config.yml file every time the server boots?
 		this.getConfig().options().copyDefaults(true);
 		this.saveConfig();
 
@@ -46,7 +47,7 @@ public class ItemEffects extends JavaPlugin implements Listener
 			player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 10 * 20, 1), true);
 		}
 	}
-	
+
 	public Object getConfig(String path)
 	{
 		return this.config.get(path);
