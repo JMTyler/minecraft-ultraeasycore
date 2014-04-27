@@ -1,0 +1,8 @@
+name: Timer
+main: io.github.jmtyler.minecraft.Timer
+version: 0.9.0
+# TODO: 'uec' command should be lifted to a master plugin
+commands:
+  uec:
+    description: Parent UEC control command.
+    usage: /<command> [start]
