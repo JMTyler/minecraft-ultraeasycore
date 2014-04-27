@@ -1,0 +1,2 @@
+<events/>
+<!-- see mobs.sylian.eu to learn how to edit this file -->

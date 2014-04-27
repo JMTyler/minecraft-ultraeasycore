@@ -1,0 +1,4 @@
+check_for_newer_version: true
+generate_templates: true
+worlds_to_ignore: []
+allow_debug: false

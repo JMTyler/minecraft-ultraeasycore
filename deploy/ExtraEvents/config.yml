@@ -1,0 +1,30 @@
+# areas:
+#   world_name:
+#     area_name:
+#       x:
+#         from: 10
+#         to: 20
+#       y:
+#         from: 55
+#         to: 58
+#       z:
+#         from: 100
+#         to: 120
+# timers:
+#   example:
+#     interval_in_seconds: 300
+#     enabled: no
+#     world: world_name
+check_for_newer_version: true
+approach:
+  x: 10
+  y: 4
+  z: 10
+leave:
+  x: 10
+  y: 4
+  z: 10
+near:
+  x: 5
+  y: 4
+  z: 5
