@@ -20,7 +20,7 @@ public class PvpStartTimer extends Countdown
 	public static void run(Plugin plugin)
 	{
 		PvpStartTimer timer = new PvpStartTimer(plugin);
-		timer.run(2 * 60, ServerTime.SECOND, plugin);
+		timer.run(15 * 60, ServerTime.SECOND, plugin);
 		((Timer)plugin).pvp = timer;
 	}
 
@@ -41,12 +41,12 @@ public class PvpStartTimer extends Countdown
 	protected void onTick(Tick t)
 	{
 		int secondsLeft = t.getTickID();
-		//this.plugin.getServer().broadcastMessage("tick id: " + String.valueOf(secondsLeft));
+		this.plugin.getServer().broadcastMessage("tick id: " + String.valueOf(secondsLeft));
 		switch (secondsLeft) {
-			/*case 60 * 10:
+			case 60 * 10:
 			case 60 * 5:
 				this.plugin.getServer().broadcastMessage(ChatColor.DARK_GREEN + "PvP in " + (secondsLeft / 60) + " minutes.");
-				break;*/
+				break;
 			case 60:
 				this.plugin.getServer().broadcastMessage(ChatColor.DARK_GREEN + "PvP in ONE minute.");
 				break;

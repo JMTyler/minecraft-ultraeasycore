@@ -19,13 +19,13 @@ public class GameStartTimer extends Countdown
 	public static void run(Plugin plugin)
 	{
 		GameStartTimer timer = new GameStartTimer(plugin);
-		timer.run(10, ServerTime.SECOND, plugin);  // TODO: Get details from config ... or MAYBE pass into the command?
+		timer.run(1, ServerTime.MINUTE, plugin);  // TODO: Get details from config ... or MAYBE pass into the command?
 	}
 
 	protected void onRun(int c, int f)
 	{
-		// Assumes f == ServerTime.SECOND
-		this.plugin.getServer().broadcastMessage(ChatColor.DARK_GREEN + "Game beginning in " + String.valueOf(c) + " seconds!");
+		// Assumes f == ServerTime.MINUTE
+		this.plugin.getServer().broadcastMessage(ChatColor.DARK_GREEN + "Game beginning in " + String.valueOf(c * 60) + " seconds!");
 	}
 
 	protected void onCancel()
