@@ -1,0 +1,7 @@
+name: ItemEffects
+main: io.github.jmtyler.ItemEffects
+version: 0.9.0
+#commands:
+#  hello:
+#    description: Blank description.
+#    usage: /<command> yeah?
