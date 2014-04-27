@@ -21,7 +21,6 @@ public class PvpStartTimer extends Countdown
 	{
 		PvpStartTimer timer = new PvpStartTimer(plugin);
 		timer.run(15 * 60, ServerTime.SECOND, plugin);
-		((Timer)plugin).pvp = timer;
 	}
 
 	protected void onRun(int c, int f)
