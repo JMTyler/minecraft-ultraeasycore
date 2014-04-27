@@ -1,2 +1,9 @@
-<events/>
+<event if_mob="witch" action="cancel+exp">
+    <linked_action name="cancel" action="cancel_event" />
+    <linked_action name="squid" action="spawn" sub="mob" mob="squid" />
+    <linked_action name="lightning" action="cause" sub="lightning" />
+    <linked_action name="effect" action="cause" sub="lightning_effect" />
+    <linked_action name="exp" action="spawn" sub="exp" amount="16" />
+</event>
+
 <!-- see mobs.sylian.eu to learn how to edit this file -->

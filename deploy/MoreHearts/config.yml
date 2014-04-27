@@ -2,4 +2,5 @@ ShowHearts: true
 Players: {}
 Permissions:
   player: 0.0
-DefaultHealth: 10.0
+DefaultHealth: 20.0
+EnableIn: UEC,UEC_nether,UEC_the_end
