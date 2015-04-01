@@ -1,0 +1,30 @@
+# Configuration file for TreeAid by Muizers
+
+# Interval to clear the cache (in seconds)
+cache_clear_time=1800
+
+# The maximal size of a forest to be checked (in blocks)
+forest_max_size=10000
+
+# Whether to enable logging plugins (like MoreProtect or Towny) or anti-cheat plugins (like NoCheatPlus)
+# true = enable logging plugins, false = enable anti-cheat plugins
+logging_or_anticheat=true
+
+# Whether to detect 2x2 jungle trees
+chop_full_jungle_tree=true
+
+# Whether to detect 2x2 pine trees
+chop_full_pine_tree=true
+
+# Whether to detect 2x2 generic trees
+chop_full_generic_tree=true
+
+# Whether to detect 2x2 birch trees
+chop_full_birch_tree=false
+
+# Whether to send a message when a player starts cutting a tree
+tree_cut_send_message=false
+
+# The message to be sent when a player starts cutting a tree
+# (You can use %a for the amount of logs left)
+tree_cut_message=
