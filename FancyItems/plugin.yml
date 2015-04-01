@@ -1,0 +1,14 @@
+name: Fancy Items
+main: io.github.jmtyler.minecraft.fancyitems.FancyItems
+version: 0.9.0
+depend: [DevCountdown, ProtocolLib]
+commands:
+  damage:
+    description: Inflict damage upon the command sender.
+    usage: /<command> [player] <damage amount in hearts>
+  manual:
+    description: Give a new copy of the Fancy-Items Manual to the player.
+    usage: /<command>
+  manualsforall:
+    description: Give a copy of the manual to ALL players.
+    usage: /<command>
