@@ -1,7 +1,7 @@
 package io.github.jmtyler.minecraft;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
 import io.github.fourohfour.devcountdown.Countdown;
@@ -28,8 +28,9 @@ public class PvpStartTimer extends Countdown
 		// Assumes f == ServerTime.SECOND
 		this.plugin.getServer().broadcastMessage("PvP will be allowed in " + String.valueOf(c / 60) + " minutes.");
 
-		CommandSender commandSender = this.plugin.getServer().getConsoleSender();
-		this.plugin.getServer().dispatchCommand(commandSender, "scoreboard teams option Playing friendlyfire false");
+		for (World world : plugin.getServer().getWorlds()) {
+			world.setPVP(false);
+		}
 	}
 
 	protected void onCancel()
@@ -40,7 +41,7 @@ public class PvpStartTimer extends Countdown
 	protected void onTick(Tick t)
 	{
 		int secondsLeft = t.getTickID();
-		this.plugin.getServer().broadcastMessage("tick id: " + String.valueOf(secondsLeft));
+		//this.plugin.getServer().broadcastMessage("tick id: " + String.valueOf(secondsLeft));
 		switch (secondsLeft) {
 			case 60 * 10:
 			case 60 * 5:
@@ -54,8 +55,9 @@ public class PvpStartTimer extends Countdown
 
 	protected void onEnd()
 	{
-		CommandSender commandSender = this.plugin.getServer().getConsoleSender();
-		this.plugin.getServer().dispatchCommand(commandSender, "scoreboard teams option Playing friendlyfire true");
+		for (World world : plugin.getServer().getWorlds()) {
+			world.setPVP(true);
+		}
 
 		this.plugin.getServer().broadcastMessage(ChatColor.RED + "PvP NOW ENABLED");
 	}

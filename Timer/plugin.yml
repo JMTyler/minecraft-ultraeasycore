@@ -1,6 +1,7 @@
 name: Timer
 main: io.github.jmtyler.minecraft.Timer
 version: 0.9.0
+depend: [DevCountdown]
 # TODO: 'uec' command should be lifted to a master plugin
 commands:
   uec:
