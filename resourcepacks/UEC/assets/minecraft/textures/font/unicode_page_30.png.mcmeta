@@ -1,0 +1,21 @@
+{ 
+   "font":{
+      "characters":{
+         "default":{
+            "width":8.0,
+            "spacing":3.0,
+            "left":0.0
+         },
+         "67":{
+            "width":8.0,
+            "spacing":3.0,
+            "left":0.0
+         },
+         "103":{
+            "width":8.0,
+            "spacing":3.0,
+            "left":0.0
+         }
+      }
+   }
+}

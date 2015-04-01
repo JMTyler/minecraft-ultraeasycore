@@ -1,0 +1,16 @@
+{
+	"font": {
+		"characters": {
+			"default": {
+				"width": 100.0,
+				"spacing": 0.0,
+				"left": 0.0
+			},
+			"103": {
+				"width": 100.0,
+				"spacing": 0.0,
+				"left": 0.0
+			}
+		}
+	}
+}
