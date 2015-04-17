@@ -3,6 +3,7 @@ package io.github.jmtyler.minecraft;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Timer extends JavaPlugin
@@ -39,6 +40,28 @@ public class Timer extends JavaPlugin
 					}
 					return true;
 				}
+			}
+
+			if (args[0].equalsIgnoreCase("heal")) {
+				if (args.length > 1) {
+					if (args[1].equals("@a")) {
+						for (Player player : this.getServer().getOnlinePlayers()) {
+							player.setHealth(40.0);
+						}
+						return true;
+					}
+
+					Player player = this.getServer().getPlayer(args[1]);
+					if (player != null) {
+						player.setHealth(40.0);
+						return true;
+					}
+
+					return false;
+				}
+
+				((Player) sender).setHealth(40.0);
+				return true;
 			}
 		}
 		return false;
