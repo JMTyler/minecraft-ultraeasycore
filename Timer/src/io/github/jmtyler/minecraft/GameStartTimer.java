@@ -11,15 +11,22 @@ import io.github.fourohfour.devcountdown.Tick;
 public class GameStartTimer extends Countdown
 {
 	protected Plugin plugin;
+	protected boolean withEternalDay;
 
-	protected GameStartTimer(Plugin plugin)
+	protected GameStartTimer(Plugin plugin, boolean withEternalDay)
 	{
 		this.plugin = plugin;
+		this.withEternalDay = withEternalDay;
 	}
 
 	public static void run(Plugin plugin)
 	{
-		GameStartTimer timer = new GameStartTimer(plugin);
+		GameStartTimer.run(plugin, false);
+	}
+
+	public static void run(Plugin plugin, boolean withEternalDay)
+	{
+		GameStartTimer timer = new GameStartTimer(plugin, withEternalDay);
 		timer.run(10, ServerTime.SECOND, plugin);  // TODO: Get details from config ... or MAYBE pass into the command?
 	}
 
@@ -45,8 +52,9 @@ public class GameStartTimer extends Countdown
 	protected void onEnd()
 	{
 		CommandSender commandSender = this.plugin.getServer().getConsoleSender();
-		this.plugin.getServer().dispatchCommand(commandSender, "gamerule doDaylightCycle true");
 		this.plugin.getServer().dispatchCommand(commandSender, "time set 0");
+		this.plugin.getServer().dispatchCommand(commandSender, "difficulty 1");
+		this.plugin.getServer().dispatchCommand(commandSender, "gamerule doDaylightCycle " + (withEternalDay ? "false" : "true"));
 
 		this.plugin.getServer().broadcastMessage(ChatColor.RED + "GAME STARTS NOW!!!");
 		PvpStartTimer.run(this.plugin);

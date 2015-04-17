@@ -20,22 +20,24 @@ public class Timer extends JavaPlugin
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
 		//getLogger().info("cmd[" + command.getName() + "]: '" + label + "' ... " + StringUtils.join(args));
-		if (command.getName().equalsIgnoreCase("uec")) {
-			if (args.length == 1 && args[0].equals("start")) {
-				GameStartTimer.run(this);
+		if (command.getName().equalsIgnoreCase("uec") && args.length > 0) {
+			if (args[0].equalsIgnoreCase("start")) {
+				boolean withEternalDay = (args.length > 1) && args[1].equalsIgnoreCase("withEternalDay");
+				GameStartTimer.run(this, withEternalDay);
+				return true;
 			}
-			return true;
-		}
-		if (command.getName().equalsIgnoreCase("pvp")) {
-			if (args.length == 1) {
-				if (args[0].equalsIgnoreCase("on")) {
+
+			if (args[0].equalsIgnoreCase("pvp") && args.length > 1) {
+				if (args[1].equalsIgnoreCase("on")) {
 					for (World world : this.getServer().getWorlds()) {
 						world.setPVP(true);
 					}
-				} else if (args[0].equalsIgnoreCase("off")) {
+					return true;
+				} else if (args[1].equalsIgnoreCase("off")) {
 					for (World world : this.getServer().getWorlds()) {
 						world.setPVP(false);
 					}
+					return true;
 				}
 			}
 		}
