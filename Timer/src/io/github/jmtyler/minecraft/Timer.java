@@ -30,12 +30,12 @@ public class Timer extends JavaPlugin
 
 			if (args[0].equalsIgnoreCase("pvp") && args.length > 1) {
 				if (args[1].equalsIgnoreCase("on")) {
-					for (World world : this.getServer().getWorlds()) {
+					for (World world : getServer().getWorlds()) {
 						world.setPVP(true);
 					}
 					return true;
 				} else if (args[1].equalsIgnoreCase("off")) {
-					for (World world : this.getServer().getWorlds()) {
+					for (World world : getServer().getWorlds()) {
 						world.setPVP(false);
 					}
 					return true;
@@ -45,13 +45,13 @@ public class Timer extends JavaPlugin
 			if (args[0].equalsIgnoreCase("heal")) {
 				if (args.length > 1) {
 					if (args[1].equals("@a")) {
-						for (Player player : this.getServer().getOnlinePlayers()) {
+						for (Player player : getServer().getOnlinePlayers()) {
 							player.setHealth(40.0);
 						}
 						return true;
 					}
 
-					Player player = this.getServer().getPlayer(args[1]);
+					Player player = getServer().getPlayer(args[1]);
 					if (player != null) {
 						player.setHealth(40.0);
 						return true;
@@ -61,6 +61,32 @@ public class Timer extends JavaPlugin
 				}
 
 				((Player) sender).setHealth(40.0);
+				return true;
+			}
+
+			if (args[0].equalsIgnoreCase("freefood")) {
+				String recipient = ((Player) sender).getName();
+				int amount = 8;
+
+				if (args.length > 2) {
+					recipient = args[1];
+					amount = Integer.parseInt(args[2]);
+				} else if (args.length > 1) {
+					try {
+						amount = Integer.parseInt(args[1]);
+					} catch (Exception e) {
+						recipient = args[1];
+					}
+				}
+
+				if (recipient.equals("@a")) {
+					for (Player player : getServer().getOnlinePlayers()) {
+						getServer().dispatchCommand(sender, "give " + player.getName() + " 364 " + amount);
+					}
+					return true;
+				}
+
+				getServer().dispatchCommand(sender, "give " + recipient + " 364 " + amount);
 				return true;
 			}
 		}
