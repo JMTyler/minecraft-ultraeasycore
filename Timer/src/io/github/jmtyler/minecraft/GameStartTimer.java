@@ -4,10 +4,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
-import io.github.fourohfour.devcountdown.Countdown;
-import io.github.fourohfour.devcountdown.ServerTime;
-import io.github.fourohfour.devcountdown.Tick;
-
 public class GameStartTimer extends Countdown
 {
 	protected Plugin plugin;
@@ -27,7 +23,7 @@ public class GameStartTimer extends Countdown
 	public static void run(Plugin plugin, boolean withEternalDay)
 	{
 		GameStartTimer timer = new GameStartTimer(plugin, withEternalDay);
-		timer.run(10, ServerTime.SECOND, plugin);  // TODO: Get details from config ... or MAYBE pass into the command?
+		timer.run(10, Countdown.SECOND, plugin);  // TODO: Get details from config ... or MAYBE pass into the command?
 	}
 
 	protected void onRun(int c, int f)
@@ -52,9 +48,13 @@ public class GameStartTimer extends Countdown
 	protected void onEnd()
 	{
 		CommandSender commandSender = this.plugin.getServer().getConsoleSender();
-		this.plugin.getServer().dispatchCommand(commandSender, "time set 0");
-		this.plugin.getServer().dispatchCommand(commandSender, "difficulty 1");
+		this.plugin.getServer().dispatchCommand(commandSender, "weather clear");
+		this.plugin.getServer().dispatchCommand(commandSender, "time set 12500");  // TODO: Make this dawn instead, and 13000.
+		this.plugin.getServer().dispatchCommand(commandSender, "difficulty peaceful");  // TODO: make easy
 		this.plugin.getServer().dispatchCommand(commandSender, "gamerule doDaylightCycle " + (withEternalDay ? "false" : "true"));
+		
+		// TODO: Does this even work?
+		this.plugin.getServer().dispatchCommand(commandSender, "scoreboard players set * isInGame 1");
 
 		this.plugin.getServer().broadcastMessage(ChatColor.RED + "GAME STARTS NOW!!!");
 		PvpStartTimer.run(this.plugin);

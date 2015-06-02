@@ -102,7 +102,7 @@ public class FindFamiliar extends Item
 
 		spawnedWolf.setOwner(owner);
 		spawnedWolf.setCustomNameVisible(true);
-		spawnedWolf.setHealth(20.0);
+		spawnedWolf.setHealth(spawnedWolf.getMaxHealth());
 		spawnedWolf.setRemoveWhenFarAway(false);
 
 		// Such a hack, but I couldn't find a better way to override the wolf's name.

@@ -2,11 +2,8 @@ package io.github.jmtyler.minecraft;
 
 import org.bukkit.ChatColor;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
-
-import io.github.fourohfour.devcountdown.Countdown;
-import io.github.fourohfour.devcountdown.ServerTime;
-import io.github.fourohfour.devcountdown.Tick;
 
 public class PvpStartTimer extends Countdown
 {
@@ -20,7 +17,7 @@ public class PvpStartTimer extends Countdown
 	public static void run(Plugin plugin)
 	{
 		PvpStartTimer timer = new PvpStartTimer(plugin);
-		timer.run(15 * 60, ServerTime.SECOND, plugin);
+		timer.run(15 * 60, Countdown.SECOND, plugin);
 	}
 
 	protected void onRun(int c, int f)
@@ -28,9 +25,8 @@ public class PvpStartTimer extends Countdown
 		// Assumes f == ServerTime.SECOND
 		this.plugin.getServer().broadcastMessage("PvP will be allowed in " + String.valueOf(c / 60) + " minutes.");
 
-		for (World world : plugin.getServer().getWorlds()) {
-			world.setPVP(false);
-		}
+		CommandSender commandSender = this.plugin.getServer().getConsoleSender();
+		this.plugin.getServer().dispatchCommand(commandSender, "uec pvp off");
 	}
 
 	protected void onCancel()
@@ -55,9 +51,8 @@ public class PvpStartTimer extends Countdown
 
 	protected void onEnd()
 	{
-		for (World world : plugin.getServer().getWorlds()) {
-			world.setPVP(true);
-		}
+		CommandSender commandSender = this.plugin.getServer().getConsoleSender();
+		this.plugin.getServer().dispatchCommand(commandSender, "uec pvp on");
 
 		this.plugin.getServer().broadcastMessage(ChatColor.RED + "PvP NOW ENABLED");
 	}

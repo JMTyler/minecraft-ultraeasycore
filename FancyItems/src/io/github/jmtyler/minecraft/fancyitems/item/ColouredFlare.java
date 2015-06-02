@@ -129,7 +129,7 @@ public class ColouredFlare extends Item
 				colourName = ChatColor.LIGHT_PURPLE + "purple" + ChatColor.RESET;
 			}
 
-			plugin.getServer().broadcastMessage("A " + colourName + " flare has just been released!");
+			plugin.getServer().broadcastMessage("A " + colourName + " flare lights up the sky!");
 		}
 	}
 }

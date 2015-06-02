@@ -1,7 +1,7 @@
 name: Fancy Items
 main: io.github.jmtyler.minecraft.fancyitems.FancyItems
 version: 0.9.0
-depend: [DevCountdown, ProtocolLib]
+depend: [ProtocolLib, Timer]
 commands:
   damage:
     description: Inflict damage upon the command sender.
@@ -9,6 +9,11 @@ commands:
   manual:
     description: Give a new copy of the Fancy-Items Manual to the player.
     usage: /<command>
+    permission: fancyitems.commands.manual
+    permission-message: Tell Jared you don't have permissions for this command, because you should!!
   manualsforall:
     description: Give a copy of the manual to ALL players.
     usage: /<command>
+permissions:
+  fancyitems.commands.manual:
+    default: true

@@ -25,7 +25,7 @@ public class Glider extends Item
 
 	protected ItemStack defineItem()
 	{
-		ItemStack item = new ItemStack(Material.FEATHER);
+		ItemStack item = new ItemStack(Material.NETHER_BRICK_ITEM);
 		setNbtData(item, "Glider", "Fly away for up to 5 seconds!");
 		return item;
 	}
@@ -44,7 +44,7 @@ public class Glider extends Item
 			.setIngredient('S', Material.STICK)
 		);
 
-		setRecipeResult("\u305B");
+		setRecipeResult("\u306B");
 		setRecipe(
 			"\u305B\u305B\u305B",
 			"\u3051\u306A\u3051",
@@ -66,7 +66,7 @@ public class Glider extends Item
 		ItemMeta nbt = itemInHand.getItemMeta();
 
 		// TODO: check if we can just use isSimilar() instead of checking all these strings
-		if (itemInHand.getType() == Material.FEATHER) {
+		if (itemInHand.getType() == Material.NETHER_BRICK_ITEM) {
 			if (nbt.hasDisplayName() && nbt.getDisplayName().equals("Glider")) {
 				if (nbt.hasLore() && nbt.getLore().contains("Fly away for up to 5 seconds!")) {
 					_useGlider(player, itemInHand);

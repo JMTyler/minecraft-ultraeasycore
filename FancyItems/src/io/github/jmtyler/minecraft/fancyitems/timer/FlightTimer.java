@@ -4,8 +4,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import io.github.fourohfour.devcountdown.Countdown;
-import io.github.fourohfour.devcountdown.ServerTime;
+import io.github.jmtyler.minecraft.Countdown;
 
 public class FlightTimer extends Countdown
 {
@@ -19,7 +18,7 @@ public class FlightTimer extends Countdown
 	public static void run(Plugin plugin, Player player, int seconds)
 	{
 		FlightTimer timer = new FlightTimer(player);
-		timer.run(seconds, ServerTime.SECOND, plugin);
+		timer.run(seconds, Countdown.SECOND, plugin);
 	}
 
 	protected void onRun(int c, int f)

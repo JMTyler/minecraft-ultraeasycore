@@ -24,6 +24,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.comphenix.protocol.PacketType;
@@ -71,6 +72,7 @@ public class FancyItems extends JavaPlugin implements Listener
 			}
 		);
 
+		// TODO: Gotta do some cool stuff with the book now that we have 1.8!
 		manualJson = "{author: \"J-Sizzle\", title: \"Fancy-Items Manual\", pages: [";
 		for (int i = 0; i < fancyItems.size(); i++) {
 			Item item = fancyItems.get(i);
@@ -81,10 +83,10 @@ public class FancyItems extends JavaPlugin implements Listener
 				}
 				manualJson += "\"";
 			}
-			manualJson += "§r§0§l" + item.getFriendlyName() + "§r§f\n" +
-				recipe[0] + "\n" +
-				recipe[1] + "  \u3050  " + item.getRecipeResult() + "\n" +
-				recipe[2] + "\n\n";
+			manualJson += "§r§0§l" + item.getFriendlyName() + "§r\n" +
+				"§f" + recipe[0] + "\n" +
+				"§f" + recipe[1] + "  \u3050  " + item.getRecipeResult() + "\n" +
+				"§f" + recipe[2] + "\n\n";
 			if (i % 3 == 2) {
 				manualJson += "\"";
 			}
@@ -129,12 +131,14 @@ public class FancyItems extends JavaPlugin implements Listener
 		}
 
 		if (command.getName().equalsIgnoreCase("manual")) {
-			getServer().dispatchCommand(sender, "give " + ((Player) sender).getName() + " 387 1 0 " + manualJson);
+			getServer().dispatchCommand(sender, "give " + ((Player) sender).getName() + " written_book 1 0 " + manualJson);
 			return true;
 		}
 
 		if (command.getName().equalsIgnoreCase("manualsforall")) {
-			getServer().dispatchCommand(sender, "give @a 387 1 0 " + manualJson);
+			for (Player player : getServer().getOnlinePlayers()) {
+				getServer().dispatchCommand(sender, "give " + player.getName() + " written_book 1 0 " + manualJson);
+			}
 			return true;
 		}
 
@@ -148,7 +152,20 @@ public class FancyItems extends JavaPlugin implements Listener
 			return;
 		}
 
-		if (event.getEntity().getKiller() == null) {
+		Player corpse = (Player) event.getEntity();
+
+		int isInGame = corpse.getScoreboard()
+			.getObjective("isInGame")
+			.getScore(corpse)
+			.getScore();
+
+		if (isInGame != 1) {
+			return;
+		}
+
+		event.getDrops().add(getPlayerHead(corpse));
+
+		if (corpse.getKiller() == null) {
 			return;
 		}
 
@@ -163,5 +180,17 @@ public class FancyItems extends JavaPlugin implements Listener
 		fancyItems.add(fancyItem);
 
 		getServer().getPluginManager().registerEvents(fancyItem, this);
+	}
+
+	protected ItemStack getPlayerHead(Player player)
+	{
+		ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1);
+		skull.setDurability((short) 3);
+
+		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+		skullMeta.setOwner(player.getDisplayName());
+		skull.setItemMeta(skullMeta);
+
+		return skull;
 	}
 }

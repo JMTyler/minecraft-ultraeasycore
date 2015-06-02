@@ -7,8 +7,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.fourohfour.devcountdown.Countdown;
-import io.github.fourohfour.devcountdown.ServerTime;
+import io.github.jmtyler.minecraft.Countdown;
 
 public class InvisibilityTimer extends Countdown
 {
@@ -24,7 +23,7 @@ public class InvisibilityTimer extends Countdown
 	public static InvisibilityTimer run(Plugin plugin, Player player, int seconds)
 	{
 		InvisibilityTimer timer = new InvisibilityTimer(player);
-		timer.run(seconds, ServerTime.SECOND, plugin);
+		timer.run(seconds, Countdown.SECOND, plugin);
 		return timer;
 	}
 
