@@ -29,13 +29,13 @@ public class FlightTimer extends Countdown
 
 	protected void onCancel()
 	{
-		player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 1.0f, 1.0f);
+		player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 0.5f, 1.0f);
 		player.setAllowFlight(false);
 	}
 
 	protected void onEnd()
 	{
-		player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 1.0f, 1.0f);
+		player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 0.5f, 1.0f);
 		player.setAllowFlight(false);
 	}
 }

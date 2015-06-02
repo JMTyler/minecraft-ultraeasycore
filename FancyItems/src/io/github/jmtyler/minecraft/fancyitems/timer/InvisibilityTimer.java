@@ -53,7 +53,7 @@ public class InvisibilityTimer extends Countdown
 	{
 		isActive = false;
 
-		player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 1.0f, 1.0f);
+		player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 0.5f, 1.0f);
 
 		for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
 			otherPlayer.showPlayer(player);
@@ -64,7 +64,7 @@ public class InvisibilityTimer extends Countdown
 	{
 		isActive = false;
 
-		player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 1.0f, 1.0f);
+		player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 0.5f, 1.0f);
 
 		for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
 			otherPlayer.showPlayer(player);
