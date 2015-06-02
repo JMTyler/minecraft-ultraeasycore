@@ -3,6 +3,7 @@ package io.github.jmtyler.minecraft.fancyitems.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.CoalType;
 import org.bukkit.Color;
 import org.bukkit.Effect;
 import org.bukkit.FireworkEffect;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.Coal;
 import org.bukkit.plugin.Plugin;
 
 import io.github.jmtyler.minecraft.fancyitems.Item;
@@ -47,7 +49,6 @@ public class SmokeBomb extends Item
 		return item;
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void registerRecipes(List<Recipe> recipes)
 	{
 		ItemStack item = getItemStack();
@@ -55,8 +56,13 @@ public class SmokeBomb extends Item
 		recipes.add(
 			new ShapelessRecipe(item)
 				.addIngredient(Material.SULPHUR)
-				// TODO: Is there a non-deprecated way to specify different types of the same item? (i.e. Coal and/or Charcoal)
-				.addIngredient(3, Material.COAL, -1)
+				.addIngredient(3, new Coal(CoalType.CHARCOAL))
+		);
+
+		recipes.add(
+			new ShapelessRecipe(item)
+				.addIngredient(Material.SULPHUR)
+				.addIngredient(3, new Coal(CoalType.COAL))
 		);
 
 		setRecipeResult("\u305D");
