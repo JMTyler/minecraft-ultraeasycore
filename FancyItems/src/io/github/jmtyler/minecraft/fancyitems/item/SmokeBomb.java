@@ -127,6 +127,9 @@ public class SmokeBomb extends Item
 
 	protected void _useSmokeBomb(Player player, ItemStack itemInHand)
 	{
+		Location smokeLocation;
+		Location playerLocation = player.getLocation();
+
 		if (itemInHand.getAmount() > 1) {
 			itemInHand.setAmount(itemInHand.getAmount() - 1);
 		} else {
@@ -135,39 +138,43 @@ public class SmokeBomb extends Item
 
 		player.getWorld().playSound(player.getLocation(), Sound.GHAST_FIREBALL, 1.0f, 1.0f);
 
-		Location playerLocation = player.getLocation();
-		for (int i = 0; i < 9; i++) {
-			_smoke(player.getWorld(), playerLocation, i, -2);
-			_smoke(player.getWorld(), playerLocation, i, -1);
-			_smoke(player.getWorld(), playerLocation, i, 0);
-			_smoke(player.getWorld(), playerLocation, i, +1);
-			_smoke(player.getWorld(), playerLocation, i, +2);
-		}
+		smokeLocation = playerLocation.clone();
+		_smoke(player.getWorld(), smokeLocation);
+		smokeLocation.setY(smokeLocation.getY() + 1);
+		_smoke(player.getWorld(), smokeLocation);
 
-		playerLocation.setY(playerLocation.getY() + 1);
-		for (int i = 0; i < 9; i++) {
-			_smoke(player.getWorld(), playerLocation, i, -2);
-			_smoke(player.getWorld(), playerLocation, i, -1);
-			_smoke(player.getWorld(), playerLocation, i, 0);
-			_smoke(player.getWorld(), playerLocation, i, +1);
-			_smoke(player.getWorld(), playerLocation, i, +2);
-		}
+		smokeLocation = playerLocation.clone();
+		smokeLocation.setX(smokeLocation.getX() + 1);
+		_smoke(player.getWorld(), smokeLocation);
+		smokeLocation.setY(smokeLocation.getY() + 1);
+		_smoke(player.getWorld(), smokeLocation);
+
+		smokeLocation = playerLocation.clone();
+		smokeLocation.setZ(smokeLocation.getZ() + 1);
+		_smoke(player.getWorld(), smokeLocation);
+		smokeLocation.setY(smokeLocation.getY() + 1);
+		_smoke(player.getWorld(), smokeLocation);
+
+		smokeLocation = playerLocation.clone();
+		smokeLocation.setX(smokeLocation.getX() - 1);
+		_smoke(player.getWorld(), smokeLocation);
+		smokeLocation.setY(smokeLocation.getY() + 1);
+		_smoke(player.getWorld(), smokeLocation);
+
+		smokeLocation = playerLocation.clone();
+		smokeLocation.setZ(smokeLocation.getZ() - 1);
+		_smoke(player.getWorld(), smokeLocation);
+		smokeLocation.setY(smokeLocation.getY() + 1);
+		_smoke(player.getWorld(), smokeLocation);
 
 		timers.add(InvisibilityTimer.run(plugin, player, 5));
 	}
 
-	protected void _smoke(World world, Location location, int direction, int offset)
+	protected void _smoke(World world, Location location)
 	{
-		direction += offset;
-
-		if (direction < 0) {
-			direction += 9;
+		for (int direction = 0; direction < 9; direction++) {
+			world.playEffect(location, Effect.SMOKE, direction);
+			world.playEffect(location, Effect.SMOKE, direction);
 		}
-
-		if (direction > 8) {
-			direction -= 9;
-		}
-
-		world.playEffect(location, Effect.SMOKE, direction);
 	}
 }
