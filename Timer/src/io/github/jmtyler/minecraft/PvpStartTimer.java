@@ -23,10 +23,8 @@ public class PvpStartTimer extends Countdown
 	protected void onRun(int c, int f)
 	{
 		// Assumes f == ServerTime.SECOND
-		this.plugin.getServer().broadcastMessage("PvP will be allowed in " + String.valueOf(c / 60) + " minutes.");
-
-		CommandSender commandSender = this.plugin.getServer().getConsoleSender();
-		this.plugin.getServer().dispatchCommand(commandSender, "uec pvp off");
+		CommandSender sender = this.plugin.getServer().getConsoleSender();
+		this.plugin.getServer().dispatchCommand(sender, "uec pvp off");
 	}
 
 	protected void onCancel()
@@ -36,24 +34,29 @@ public class PvpStartTimer extends Countdown
 
 	protected void onTick(Tick t)
 	{
+		CommandSender sender = plugin.getServer().getConsoleSender();
 		int secondsLeft = t.getTickID();
 		//this.plugin.getServer().broadcastMessage("tick id: " + String.valueOf(secondsLeft));
 		switch (secondsLeft) {
 			case 60 * 10:
+				plugin.getServer().dispatchCommand(sender, "title @a reset");
 			case 60 * 5:
-				this.plugin.getServer().broadcastMessage(ChatColor.DARK_GREEN + "PvP in " + (secondsLeft / 60) + " minutes.");
+				plugin.getServer().dispatchCommand(sender, "title @a subtitle {color: \"green\", text: \"PvP in " + (secondsLeft / 60) + " minutes.\"}");
+				plugin.getServer().dispatchCommand(sender, "title @a title {text: \"\"}");
 				break;
 			case 60:
-				this.plugin.getServer().broadcastMessage(ChatColor.DARK_GREEN + "PvP in ONE minute.");
+				plugin.getServer().dispatchCommand(sender, "title @a subtitle {color: \"green\", text: \"PvP in ONE minute.\"}");
+				plugin.getServer().dispatchCommand(sender, "title @a title {text: \"\"}");
 				break;
 		}
 	}
 
 	protected void onEnd()
 	{
-		CommandSender commandSender = this.plugin.getServer().getConsoleSender();
-		this.plugin.getServer().dispatchCommand(commandSender, "uec pvp on");
+		CommandSender sender = this.plugin.getServer().getConsoleSender();
+		this.plugin.getServer().dispatchCommand(sender, "uec pvp on");
 
-		this.plugin.getServer().broadcastMessage(ChatColor.RED + "PvP NOW ENABLED");
+		plugin.getServer().dispatchCommand(sender, "title @a times 100 60 20");
+		plugin.getServer().dispatchCommand(sender, "title @a title {color: \"red\", text: \"PvP NOW ENABLED\"}");
 	}
 }

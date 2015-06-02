@@ -29,7 +29,10 @@ public class GameStartTimer extends Countdown
 	protected void onRun(int c, int f)
 	{
 		// Assumes f == ServerTime.SECOND
-		this.plugin.getServer().broadcastMessage(ChatColor.DARK_GREEN + "Game beginning in " + String.valueOf(c) + " seconds!");
+		CommandSender sender = plugin.getServer().getConsoleSender();
+		plugin.getServer().dispatchCommand(sender, "title @a reset");
+		plugin.getServer().dispatchCommand(sender, "title @a subtitle {color: \"green\", text: \"Game beginning in " + String.valueOf(c) + " seconds!\"}");
+		plugin.getServer().dispatchCommand(sender, "title @a title {text: \"\"}");
 	}
 
 	protected void onCancel()
@@ -41,22 +44,25 @@ public class GameStartTimer extends Countdown
 	{
 		int secondsLeft = t.getTickID();
 		if (secondsLeft <= 3) {
-			this.plugin.getServer().broadcastMessage(String.valueOf(secondsLeft));
+			CommandSender sender = plugin.getServer().getConsoleSender();
+			plugin.getServer().dispatchCommand(sender, "title @a title {text: \"" + String.valueOf(secondsLeft) + "\"}");
 		}
 	}
 
 	protected void onEnd()
 	{
-		CommandSender commandSender = this.plugin.getServer().getConsoleSender();
-		this.plugin.getServer().dispatchCommand(commandSender, "weather clear");
-		this.plugin.getServer().dispatchCommand(commandSender, "time set 12500");  // TODO: Make this dawn instead, and 13000.
-		this.plugin.getServer().dispatchCommand(commandSender, "difficulty peaceful");  // TODO: make easy
-		this.plugin.getServer().dispatchCommand(commandSender, "gamerule doDaylightCycle " + (withEternalDay ? "false" : "true"));
-		
-		// TODO: Does this even work?
-		this.plugin.getServer().dispatchCommand(commandSender, "scoreboard players set * isInGame 1");
+		CommandSender sender = plugin.getServer().getConsoleSender();
+		this.plugin.getServer().dispatchCommand(sender, "weather clear");
+		this.plugin.getServer().dispatchCommand(sender, "time set 12500");  // TODO: Make this dawn instead, and 13000.
+		this.plugin.getServer().dispatchCommand(sender, "difficulty peaceful");  // TODO: make easy
+		this.plugin.getServer().dispatchCommand(sender, "gamerule doDaylightCycle " + (withEternalDay ? "false" : "true"));
 
-		this.plugin.getServer().broadcastMessage(ChatColor.RED + "GAME STARTS NOW!!!");
+		// TODO: Does this even work?
+		this.plugin.getServer().dispatchCommand(sender, "scoreboard players set * isInGame 1");
+
+		plugin.getServer().dispatchCommand(sender, "title @a times 20 120 20");
+		plugin.getServer().dispatchCommand(sender, "title @a subtitle {text: \"PvP will be allowed in 15 minutes.\"}");
+		plugin.getServer().dispatchCommand(sender, "title @a title {color: \"red\", text: \"GAME STARTS NOW!!!\"}");
 		PvpStartTimer.run(this.plugin);
 	}
 }
