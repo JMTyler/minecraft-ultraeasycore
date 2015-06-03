@@ -72,29 +72,18 @@ public class FancyItems extends JavaPlugin implements Listener
 			}
 		);
 
-		// TODO: Gotta do some cool stuff with the book now that we have 1.8!
-		manualJson = "{author: \"J-Sizzle\", title: \"Fancy-Items Manual\", pages: [";
+		// TODO: Eventually I should build this as actual JSON and just stringify it.
+		manualJson = "{author: \"J-Sizzle\", title: \"Fancy-Items Manual\", pages: [\"[";
 		for (int i = 0; i < fancyItems.size(); i++) {
 			Item item = fancyItems.get(i);
 			String[] recipe = item.getRecipe();
-			if (i % 3 == 0) {
-				if (manualJson.endsWith("\"")) {
-					manualJson += ",";
-				}
-				manualJson += "\"";
+			if (i > 0) {
+				manualJson += ", ";
 			}
-			manualJson += "§r§0§l" + item.getFriendlyName() + "§r\n" +
-				"§f" + recipe[0] + "\n" +
-				"§f" + recipe[1] + "  \u3050  " + item.getRecipeResult() + "\n" +
-				"§f" + recipe[2] + "\n\n";
-			if (i % 3 == 2) {
-				manualJson += "\"";
-			}
+			manualJson += "{color: \\\"white\\\", text: \\\"" + item.getRecipeResult() + " \\\"}, "
+				+ "{color: \\\"black\\\", text: \\\"" + item.getFriendlyName() + "\\n\\\", hoverEvent: {action: \\\"show_text\\\", value: \\\"" + recipe[0] + "\n" + recipe[1] + "\n" + recipe[2] + "\\\"}}";
 		}
-		if (!manualJson.endsWith("\"")) {
-			manualJson += "\"";
-		}
-		manualJson += "]}";
+		manualJson += "]\"]}";
 	}
 
 	public void onDisable()
