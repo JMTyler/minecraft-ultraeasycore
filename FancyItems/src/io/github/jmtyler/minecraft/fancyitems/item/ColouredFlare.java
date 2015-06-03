@@ -1,9 +1,11 @@
 package io.github.jmtyler.minecraft.fancyitems.item;
 
+import java.util.Iterator;
 import java.util.List;
 
 import io.github.jmtyler.minecraft.fancyitems.Item;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -26,6 +28,27 @@ public class ColouredFlare extends Item
 	public ColouredFlare(Plugin plugin)
 	{
 		super(plugin);
+
+		Recipe recipe;
+		Iterator<Recipe> recipes = plugin.getServer().recipeIterator();
+		while (recipes.hasNext()) {
+			recipe = recipes.next();
+
+			if (recipe == null) {
+				continue;
+			}
+
+			if (recipe.getResult().getType() != Material.FIREWORK) {
+				continue;
+			}
+
+			if (recipe instanceof ShapedRecipe) {
+				continue;
+			}
+
+			// Should only find the single vanilla Firework recipe.  Get rid of it, for it may be confusing.
+			recipes.remove();
+		}
 	}
 
 	protected ItemStack defineItem()
