@@ -29,42 +29,32 @@ public class Timer extends JavaPlugin implements Listener
 	public void onDisable() {}
 
 	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent event)
+	public void onPlayerRespawn(PlayerRespawnEvent event)
 	{
-		Player corpse = event.getEntity();
-		String team = corpse.getScoreboard().getPlayerTeam(corpse).getName();
+		final Player player = event.getPlayer();
+
+		String team = player.getScoreboard().getPlayerTeam(player).getName();
 		if (team.equals("DEAD")) {
 			return;
 		}
 
-		int isInGame = corpse.getScoreboard()
+		int isInGame = player.getScoreboard()
 			.getObjective("isInGame")
-			.getScore(corpse)
+			.getScore(player)
 			.getScore();
 
 		if (isInGame != 1) {
 			return;
 		}
 
-		//corpse.getScoreboard().getObjective("isInGame").getScore(corpse).setScore(0);
-		corpse.getScoreboard().getTeam("DEAD").addPlayer(corpse);
-		getServer().dispatchCommand(getServer().getConsoleSender(), "uec ghost " + corpse.getDisplayName());
-	}
-
-	@EventHandler
-	public void onPlayerRespawn(PlayerRespawnEvent event)
-	{
-		final Player player = event.getPlayer();
-		if (!ghosts.contains(player)) {
-			return;
-		}
-
 		new Thread(new Runnable() {
 			public void run() {
 				try {
+					// HACK: For some reason, things like Night Vision don't always apply if you do it right away.
 					Thread.sleep(100);
-					// TODO: Test if other players can see these particles still.
-					player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 1), true);
+
+					player.getScoreboard().getTeam("DEAD").addPlayer(player);
+					getServer().dispatchCommand(getServer().getConsoleSender(), "uec ghost " + player.getDisplayName());
 				} catch (Exception e) {
 					System.out.println("Failed to asynchronously give " + player.getDisplayName() + " night-vision.");
 				}
@@ -78,6 +68,22 @@ public class Timer extends JavaPlugin implements Listener
 			if (args[0].equalsIgnoreCase("start")) {
 				boolean withEternalDay = (args.length > 1) && args[1].equalsIgnoreCase("withEternalDay");
 				GameStartTimer.run(this, withEternalDay);
+				return true;
+			}
+
+			if (args[0].equalsIgnoreCase("end")) {
+				getServer().dispatchCommand(getServer().getConsoleSender(), "uec unghost");
+
+				for (Player player : getServer().getOnlinePlayers()) {
+					// Remove player from 'playing' status.
+					player.getScoreboard()
+						.getObjective("isInGame")
+						.getScore(player)
+						.setScore(0);
+
+					player.setGameMode(GameMode.CREATIVE);
+				}
+
 				return true;
 			}
 
@@ -107,16 +113,10 @@ public class Timer extends JavaPlugin implements Listener
 					}
 					ghosts.add(deadPlayer);
 
-					deadPlayer.setAllowFlight(true);
-					for (Player otherPlayer : getServer().getOnlinePlayers()) {
-						if (ghosts.contains(otherPlayer)) {
-							continue;
-						}
-						otherPlayer.hidePlayer(deadPlayer);
-					}
-					for (Player ghost : ghosts) {
-						deadPlayer.showPlayer(ghost);
-					}
+					// TODO: Test if other players can see these particles still.
+					deadPlayer.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 1), true);
+					deadPlayer.setGameMode(GameMode.SPECTATOR);
+
 					return true;
 				}
 			}
@@ -135,23 +135,10 @@ public class Timer extends JavaPlugin implements Listener
 						continue;
 					}
 
-					// Remove player from 'playing' status.
-					player.getScoreboard()
-						.getObjective("isInGame")
-						.getScore(player)
-						.setScore(0);
-
 					ghosts.remove(player);
 
-					player.setAllowFlight(false);
 					player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-					for (Player otherPlayer : getServer().getOnlinePlayers()) {
-						otherPlayer.showPlayer(player);
-					}
-					for (Player ghost : ghosts) {
-						player.hidePlayer(ghost);
-					}
-					player.setGameMode(GameMode.CREATIVE);
+					player.setGameMode(GameMode.SURVIVAL);
 				}
 				return true;
 			}
