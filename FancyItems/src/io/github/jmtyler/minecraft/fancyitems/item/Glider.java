@@ -1,11 +1,17 @@
 package io.github.jmtyler.minecraft.fancyitems.item;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.github.jmtyler.minecraft.fancyitems.Item;
 import io.github.jmtyler.minecraft.fancyitems.timer.FlightTimer;
+import io.github.jmtyler.minecraft.fancyitems.timer.InvisibilityTimer;
+import io.github.jmtyler.minecraft.fancyitems.timer.event.TimerCompleteEvent;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -18,6 +24,8 @@ import org.bukkit.plugin.Plugin;
 
 public class Glider extends Item
 {
+	protected Map<Player, FlightTimer> glidersInUse = new HashMap<Player, FlightTimer>();
+
 	public Glider(Plugin plugin)
 	{
 		super(plugin);
@@ -26,7 +34,7 @@ public class Glider extends Item
 	protected ItemStack defineItem()
 	{
 		ItemStack item = new ItemStack(Material.NETHER_BRICK_ITEM);
-		setNbtData(item, "Glider", "Fly away for up to 5 seconds!");
+		setNbtData(item, "Glider", "Temporary flight!");
 		return item;
 	}
 
@@ -68,10 +76,19 @@ public class Glider extends Item
 		// TODO: check if we can just use isSimilar() instead of checking all these strings
 		if (itemInHand.getType() == Material.NETHER_BRICK_ITEM) {
 			if (nbt.hasDisplayName() && nbt.getDisplayName().equals("Glider")) {
-				if (nbt.hasLore() && nbt.getLore().contains("Fly away for up to 5 seconds!")) {
+				if (nbt.hasLore() && nbt.getLore().contains("Temporary flight!")) {
 					_useGlider(player, itemInHand);
 				}
 			}
+		}
+	}
+
+	@EventHandler
+	public void onTimerComplete(TimerCompleteEvent event)
+	{
+		if (event.getTimer() instanceof FlightTimer) {
+			glidersInUse.remove(event.getPlayer());
+			event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.FIZZ, 0.5f, 1.0f);
 		}
 	}
 
@@ -83,6 +100,15 @@ public class Glider extends Item
 			player.setItemInHand(new ItemStack(Material.AIR));
 		}
 
-		FlightTimer.run(plugin, player, 5);
+		int flightDuration = 5;
+
+		if (!glidersInUse.containsKey(player)) {
+			FlightTimer timer = FlightTimer.run(plugin, player, flightDuration);
+			glidersInUse.put(player, timer);
+		} else {
+			glidersInUse.get(player).extend(flightDuration);
+		}
+
+		player.getWorld().playSound(player.getLocation(), Sound.ENDERDRAGON_WINGS, 1.0f, 1.0f);
 	}
 }

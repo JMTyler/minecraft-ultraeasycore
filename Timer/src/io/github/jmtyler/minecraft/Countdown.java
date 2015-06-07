@@ -15,7 +15,7 @@ public class Countdown {
 	//Create variables for the length of time, the size of the unit of time (how many server ticks one unit is) and the owning plugin.
 	private int count;
 	private int factor;
-	private Plugin owning;
+	protected Plugin owning;
 	
 	//Creates list for all tasks
 	private List<Integer> taskList;
@@ -38,6 +38,10 @@ public class Countdown {
 	public void cancel(){
 		stop();
 		this.onCancel();
+	}
+	
+	public void extend(int time) {
+		this.count += time;
 	}
 	
 	//Method to stop the countdown and run onEnd

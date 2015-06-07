@@ -8,12 +8,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.jmtyler.minecraft.Countdown;
+import io.github.jmtyler.minecraft.fancyitems.timer.event.TimerCompleteEvent;
 
 public class InvisibilityTimer extends Countdown
 {
 	protected Player player;
-
-	protected boolean isActive = false;
 
 	protected InvisibilityTimer(Player player)
 	{
@@ -27,22 +26,10 @@ public class InvisibilityTimer extends Countdown
 		return timer;
 	}
 
-	public boolean isActive()
-	{
-		return isActive;
-	}
-
-	public boolean canAttack(Player player)
-	{
-		return !player.equals(this.player) || !isActive; 
-	}
-
 	protected void onRun(int count, int factor)
 	{
-		isActive = true;
-
-		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, count * 20, 1), true);
-		player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, count * 20, 1), true);
+		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 1), true);
+		player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 1), true);
 
 		for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
 			otherPlayer.hidePlayer(player);
@@ -51,23 +38,25 @@ public class InvisibilityTimer extends Countdown
 
 	protected void onCancel()
 	{
-		isActive = false;
-
-		player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 0.5f, 1.0f);
+		player.removePotionEffect(PotionEffectType.INVISIBILITY);
+		player.removePotionEffect(PotionEffectType.NIGHT_VISION);
 
 		for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
 			otherPlayer.showPlayer(player);
 		}
+
+		owning.getServer().getPluginManager().callEvent(new TimerCompleteEvent(player, this));
 	}
 
 	protected void onEnd()
 	{
-		isActive = false;
-
-		player.getWorld().playSound(player.getLocation(), Sound.FIZZ, 0.5f, 1.0f);
+		player.removePotionEffect(PotionEffectType.INVISIBILITY);
+		player.removePotionEffect(PotionEffectType.NIGHT_VISION);
 
 		for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
 			otherPlayer.showPlayer(player);
 		}
+
+		owning.getServer().getPluginManager().callEvent(new TimerCompleteEvent(player, this));
 	}
 }
