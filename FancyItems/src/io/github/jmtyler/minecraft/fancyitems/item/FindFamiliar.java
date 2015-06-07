@@ -36,7 +36,7 @@ public class FindFamiliar extends Item
 		spawnEgg.setSpawnedType(EntityType.WOLF);
 
 		ItemStack item = spawnEgg.toItemStack(1);
-		setNbtData(item, "Find Familiar", "Spawn a pre-tamed wolf! Friends for life!");
+		setNbtData(item, "Find Familiar", "Spawn a pre-tamed wolf");
 		return item;
 	}
 

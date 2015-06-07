@@ -31,7 +31,7 @@ public class Teleport extends Item
 	protected ItemStack defineItem()
 	{
 		ItemStack item = new ItemStack(Material.ENDER_PEARL);
-		setNbtData(item, "Teleport", "Where it lands, there you will go! Also take 1 heart of damage.");
+		setNbtData(item, "Teleport", "Toss it and teleport where it lands (for 1 heart)");
 		return item;
 	}
 

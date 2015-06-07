@@ -36,7 +36,7 @@ public class KnockbackSnowball extends Item
 	protected ItemStack defineItem()
 	{
 		ItemStack item = new ItemStack(Material.SNOW_BALL);
-		setNbtData(item, "Knockback Snowball", "Wind up and daze your opponent with a snowball!");
+		setNbtData(item, "Knockback Snowball", "Snowballs that'll knock 'em back!");
 
 		// TODO: Can I just use Punch for this instead of Knockback, then not have to code it myself?
 		ItemMeta nbt = item.getItemMeta();
@@ -82,7 +82,7 @@ public class KnockbackSnowball extends Item
 
 		if (itemInHand.getType() == Material.SNOW_BALL) {
 			if (nbt.hasDisplayName() && nbt.getDisplayName().equals("Knockback Snowball")) {
-				if (nbt.hasLore() && nbt.getLore().contains("Wind up and daze your opponent with a snowball!")) {
+				if (nbt.hasLore() && nbt.getLore().contains("Snowballs that'll knock 'em back!")) {
 					_snowballLaunched = true;
 					_snowballThrownBy.add(player);
 					_snowballThrownFrom.add(player.getLocation());

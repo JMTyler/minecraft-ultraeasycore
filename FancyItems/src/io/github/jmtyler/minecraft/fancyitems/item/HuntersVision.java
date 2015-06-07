@@ -22,7 +22,7 @@ public class HuntersVision extends Item
 	protected ItemStack defineItem()
 	{
 		ItemStack item = new Potion(PotionType.NIGHT_VISION).splash().toItemStack(1);
-		setNbtData(item, "Hunter's Vision", "See clearly in the dark! Or underwater!");
+		setNbtData(item, "Hunter's Vision", "See clearly in the dark! Or into watery depths!");
 		return item;
 	}
 
